@@ -6,23 +6,23 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gomlek.coursemc.entities.Category;
-import com.gomlek.coursemc.repositories.CategoryRepository;
+import com.gomlek.coursemc.entities.Product;
+import com.gomlek.coursemc.repositories.ProductRepository;
 import com.gomlek.coursemc.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class CategoryService {
+public class ProductService {
 
 	@Autowired
-	private CategoryRepository repository;
+	private ProductRepository repository;
 	
-	public List<Category> findAll(){
+	public List<Product> findAll(){
 		return repository.findAll();
 	}
 	
-	public Category findById(Long id) {
-		Optional<Category> obj = repository.findById(id);
+	public Product findById(Long id) {
+		Optional<Product> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Object not Found! Id: " + id + ", type: " + Category.class.getName()));
+				"Object not Found! Id: " + id + ", type: " + Product.class.getName()));
 	}
 }
