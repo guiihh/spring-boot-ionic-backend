@@ -1,5 +1,6 @@
 package com.gomlek.coursemc.config;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.gomlek.coursemc.entities.Address;
+import com.gomlek.coursemc.entities.CardPayment;
 import com.gomlek.coursemc.entities.Category;
 import com.gomlek.coursemc.entities.City;
 import com.gomlek.coursemc.entities.Client;
+import com.gomlek.coursemc.entities.Order;
+import com.gomlek.coursemc.entities.Payment;
+import com.gomlek.coursemc.entities.PaymentWithBoleto;
 import com.gomlek.coursemc.entities.Product;
 import com.gomlek.coursemc.entities.State;
 import com.gomlek.coursemc.entities.enums.ClientType;
+import com.gomlek.coursemc.entities.enums.PaymentStatus;
 import com.gomlek.coursemc.repositories.AddressRepository;
 import com.gomlek.coursemc.repositories.CategoryRepository;
 import com.gomlek.coursemc.repositories.CityRepository;
 import com.gomlek.coursemc.repositories.ClientRepository;
+import com.gomlek.coursemc.repositories.OrderRepository;
+import com.gomlek.coursemc.repositories.PaymentRepository;
 import com.gomlek.coursemc.repositories.ProductRepository;
 import com.gomlek.coursemc.repositories.StateRepository;
 
@@ -43,6 +51,12 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private AddressRepository addressRepository;
+
+	@Autowired
+	private OrderRepository orderRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -94,6 +108,23 @@ public class TestConfig implements CommandLineRunner {
 
 		clientRepository.save(cli1);
 		addressRepository.saveAll(Arrays.asList(e1, e2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Order ped1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Order ped2 = new Order(null, sdf.parse("10/10/2021 11:32"),cli1, e2);
+
+		Payment pagto1 = new CardPayment(null, PaymentStatus.SETTLED, ped1, 6);
+		ped1.setPayment(pagto1);
+
+		Payment pagto2 = new PaymentWithBoleto(null, PaymentStatus.PENDING, ped2, sdf.parse("20/10/2020 11:11"), null);
+		ped2.setPayment(pagto2);
+
+		cli1.getRequests().addAll(Arrays.asList(ped1, ped2));
+
+
+		orderRepository.saveAll(Arrays.asList(ped1, ped2));
+		paymentRepository.saveAll(Arrays.asList(pagto1, pagto2));
 	}
 }
 
