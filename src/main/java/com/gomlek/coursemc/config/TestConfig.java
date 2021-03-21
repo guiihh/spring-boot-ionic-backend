@@ -14,6 +14,7 @@ import com.gomlek.coursemc.entities.Category;
 import com.gomlek.coursemc.entities.City;
 import com.gomlek.coursemc.entities.Client;
 import com.gomlek.coursemc.entities.Order;
+import com.gomlek.coursemc.entities.OrderedItem;
 import com.gomlek.coursemc.entities.Payment;
 import com.gomlek.coursemc.entities.PaymentWithBoleto;
 import com.gomlek.coursemc.entities.Product;
@@ -25,6 +26,7 @@ import com.gomlek.coursemc.repositories.CategoryRepository;
 import com.gomlek.coursemc.repositories.CityRepository;
 import com.gomlek.coursemc.repositories.ClientRepository;
 import com.gomlek.coursemc.repositories.OrderRepository;
+import com.gomlek.coursemc.repositories.OrderedItemRepository;
 import com.gomlek.coursemc.repositories.PaymentRepository;
 import com.gomlek.coursemc.repositories.ProductRepository;
 import com.gomlek.coursemc.repositories.StateRepository;
@@ -57,6 +59,9 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private OrderedItemRepository orderedItemRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -125,7 +130,23 @@ public class TestConfig implements CommandLineRunner {
 
 		orderRepository.saveAll(Arrays.asList(ped1, ped2));
 		paymentRepository.saveAll(Arrays.asList(pagto1, pagto2));
+	
+		OrderedItem ip1 = new OrderedItem(ped1, p1, 0.00, 1, 2000.00);
+		OrderedItem ip2 = new OrderedItem(ped1, p3, 0.00, 2, 80.00);
+		OrderedItem ip3 = new OrderedItem(ped2, p2, 0.00, 1, 800.00);
+	
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p1.getItens().addAll(Arrays.asList(ip2));
+
+		orderedItemRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+
+
 	}
+
 }
 
 

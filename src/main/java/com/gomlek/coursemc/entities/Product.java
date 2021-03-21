@@ -2,7 +2,9 @@ package com.gomlek.coursemc.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,14 +36,27 @@ public class Product implements Serializable{
 		inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private List<Category> categories = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "id.product")
+    private Set<OrderedItem> itens = new HashSet<>();
+
+
 	public Product() {
 	}
 
+	
 	public Product(Long id, String name, Double price) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
+	}
+
+	public List<Order> getOrders(){
+		List<Order> list = new ArrayList<>();
+		for (OrderedItem x : itens) {
+			list.add(x.getOrder());
+		}	
+		return list;
 	}
 
 	public Long getId() {
@@ -71,6 +87,15 @@ public class Product implements Serializable{
 	public List<Category> getCategories() {
 		return categories;
 	}
+
+	public Set<OrderedItem> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<OrderedItem> itens) {
+		this.itens = itens;
+	}
+
 
 	@Override
 	public int hashCode() {

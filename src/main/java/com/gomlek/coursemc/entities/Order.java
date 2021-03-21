@@ -2,6 +2,8 @@ package com.gomlek.coursemc.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -36,8 +39,14 @@ public class Order implements Serializable{
     @JoinColumn(name = "delivery_address_id")
     private Address deliveryAddress;
 
+    
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderedItem> itens = new HashSet<>();
+
     public Order(){
     }
+
+    
 
     public Order(Long id, Date moment, Client client, Address deliveryAddress) {
         this.id = id;
@@ -92,6 +101,13 @@ public class Order implements Serializable{
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
+    }
+    public Set<OrderedItem> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<OrderedItem> itens) {
+        this.itens = itens;
     }
 
     @Override
