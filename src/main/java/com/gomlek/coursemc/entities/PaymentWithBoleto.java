@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gomlek.coursemc.entities.enums.PaymentStatus;
 
 @Entity
@@ -11,8 +12,9 @@ public class PaymentWithBoleto extends Payment {
 
     private static final long serialVersionUID = 1L;
   
-   
+    @JsonFormat(pattern = "dd/HH/yyyy HH:mm")
     private Date dueDate;
+    @JsonFormat(pattern = "dd/HH/yyyy HH:mm")
     private Date PaymentDate;
 
     public PaymentWithBoleto(){
