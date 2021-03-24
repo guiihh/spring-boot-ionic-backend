@@ -2,7 +2,9 @@ package com.gomlek.coursemc.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.gomlek.coursemc.dto.CategoryDTO;
 import com.gomlek.coursemc.entities.Category;
 import com.gomlek.coursemc.services.CategoryService;
 
@@ -27,9 +29,10 @@ public class CategoryResource {
 
 	
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll() {
+	public ResponseEntity<List<CategoryDTO>> findAll() {
 		List<Category> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+		List<CategoryDTO> listDto = list.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 
 	@GetMapping(value = "/{id}")
