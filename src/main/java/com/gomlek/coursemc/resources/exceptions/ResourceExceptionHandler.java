@@ -2,13 +2,13 @@ package com.gomlek.coursemc.resources.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gomlek.coursemc.services.exceptions.DataIntegrityException;
+import com.gomlek.coursemc.services.exceptions.ObjectNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import com.gomlek.coursemc.services.exceptions.DataIntegrityException;
-import com.gomlek.coursemc.services.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {

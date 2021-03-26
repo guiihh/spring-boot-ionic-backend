@@ -5,8 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.gomlek.coursemc.dto.CategoryDTO;
 import com.gomlek.coursemc.entities.Category;
 import com.gomlek.coursemc.repositories.CategoryRepository;
 import com.gomlek.coursemc.services.exceptions.DataIntegrityException;
@@ -29,6 +33,7 @@ public class CategoryService {
 	}
 
 	public Category insert(Category obj){
+		obj.setId(null);
 		return repository.save(obj);
 	}
 
@@ -46,4 +51,13 @@ public class CategoryService {
 			throw new DataIntegrityException("Its is not possible to exclude a category with Products ");
 		}
     }
+
+	public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repository.findAll(pageRequest);
+	} 
+
+	public Category fromDTO(CategoryDTO objDto){
+		return new Category(objDto.getId(), objDto.getName());
+	}
 }
