@@ -4,7 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gomlek.coursemc.dto.ClientDTO;
+import com.gomlek.coursemc.dto.ClientNewDTO;
+import com.gomlek.coursemc.entities.Address;
+import com.gomlek.coursemc.entities.City;
 import com.gomlek.coursemc.entities.Client;
+import com.gomlek.coursemc.entities.enums.ClientType;
+import com.gomlek.coursemc.repositories.AddressRepository;
+import com.gomlek.coursemc.repositories.CityRepository;
 import com.gomlek.coursemc.repositories.ClientRepository;
 import com.gomlek.coursemc.services.exceptions.DataIntegrityException;
 import com.gomlek.coursemc.services.exceptions.ObjectNotFoundException;
@@ -15,12 +21,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClientService {
 
 	@Autowired
 	private ClientRepository repository;
+
+	@Autowired
+	private AddressRepository addressRepository;
 	
 	public List<Client> findAll(){
 		return repository.findAll();
@@ -32,11 +42,13 @@ public class ClientService {
 				"Object not Found! Id: " + id + ", type: " + Client.class.getName()));
 	}
 	
-
-	// public Client insert(Client obj){
-	// 	obj.setId(null);
-	// 	return repository.save(obj);
-	// }
+	@Transactional
+	public Client insert(Client obj){
+		obj.setId(null);
+		obj = repository.save(obj);
+		addressRepository.saveAll(obj.getAddress());
+		return obj;
+	}
 
 	public Client update(Client obj){
 		Client newObj = find(obj.getId());
@@ -61,6 +73,22 @@ public class ClientService {
 
 	public Client fromDTO(ClientDTO objDto){
 		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null);
+	}
+
+	public Client fromDTO(ClientNewDTO objDto){
+		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOuCpnj(), ClientType.toEnum(objDto.getType()));
+		City cid = new City(objDto.getCidadeId(), null, null);
+		Address end = new Address(null, objDto.getPublicPlace(),objDto.getNumber(), objDto.getComplement(), objDto.getDistrict(), objDto.getCep(), cli, cid);
+		cli.getAddress().add(end);
+		cli.getPhones().add(objDto.getPhoneOne());
+		if(objDto.getPhoneTwo()!= null){
+			cli.getPhones().add(objDto.getPhoneTwo());
+		}
+		if(objDto.getPhoneTree()!= null){
+			cli.getPhones().add(objDto.getPhoneTree());
+		}
+
+		return cli;
 	}
 
 	private void updateData(Client newObj, Client obj){
