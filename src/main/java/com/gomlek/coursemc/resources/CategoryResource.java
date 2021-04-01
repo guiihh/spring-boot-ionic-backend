@@ -40,8 +40,8 @@ public class CategoryResource {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id) {
-		Category obj = service.findById(id);
+	public ResponseEntity<Category> find(@PathVariable Long id) {
+		Category obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -63,7 +63,7 @@ public class CategoryResource {
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
-		service.deleteById(id);
+		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 

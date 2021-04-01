@@ -26,7 +26,7 @@ public class CategoryService {
 		return repository.findAll();
 	}
 	
-	public Category findById(Long id) {
+	public Category find(Long id) {
 		Optional<Category> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Object not Found! Id: " + id + ", type: " + Category.class.getName()));
@@ -38,13 +38,14 @@ public class CategoryService {
 	}
 
 	public Category update(Category obj){
-		findById(obj.getId());
-		return repository.save(obj);
+		Category newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repository.save(newObj);
 	}
 
-    public void deleteById(Long id) {
+    public void delete(Long id) {
+		find(id);
 		try{
-		findById(id);
 		repository.deleteById(id);
 		}
 		catch(DataIntegrityViolationException e){
@@ -59,5 +60,8 @@ public class CategoryService {
 
 	public Category fromDTO(CategoryDTO objDto){
 		return new Category(objDto.getId(), objDto.getName());
+	}
+	private void updateData(Category newObj, Category obj){
+		newObj.setName(obj.getName());
 	}
 }
