@@ -10,7 +10,6 @@ import com.gomlek.coursemc.entities.City;
 import com.gomlek.coursemc.entities.Client;
 import com.gomlek.coursemc.entities.enums.ClientType;
 import com.gomlek.coursemc.repositories.AddressRepository;
-import com.gomlek.coursemc.repositories.CityRepository;
 import com.gomlek.coursemc.repositories.ClientRepository;
 import com.gomlek.coursemc.services.exceptions.DataIntegrityException;
 import com.gomlek.coursemc.services.exceptions.ObjectNotFoundException;
