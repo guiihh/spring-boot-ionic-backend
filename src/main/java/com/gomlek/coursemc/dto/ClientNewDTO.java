@@ -19,8 +19,7 @@ public class ClientNewDTO implements Serializable{
     @Length(min = 5, max = 120, message = "The size should be between 5 and 20")
     private String name;
 
-    @NotNull(message = "mandatory filling")
-    @Email(message = "Invalid e-mail")
+    //@Email(message = "Invalid e-mail")
     private String email;
 
     @NotNull(message = "mandatory filling")
