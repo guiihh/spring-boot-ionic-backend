@@ -2,12 +2,12 @@ package com.gomlek.coursemc.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import com.gomlek.coursemc.entities.Client;
 import com.gomlek.coursemc.services.validation.ClientUpdate;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 @ClientUpdate
