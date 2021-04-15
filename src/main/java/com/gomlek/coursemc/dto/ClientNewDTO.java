@@ -2,11 +2,11 @@ package com.gomlek.coursemc.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import com.gomlek.coursemc.services.validation.ClientInsert;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 
@@ -19,7 +19,7 @@ public class ClientNewDTO implements Serializable{
     @Length(min = 5, max = 120, message = "The size should be between 5 and 20")
     private String name;
 
-    //@Email(message = "Invalid e-mail")
+    @Email(message = "Invalid e-mail")
     private String email;
 
     @NotNull(message = "mandatory filling")

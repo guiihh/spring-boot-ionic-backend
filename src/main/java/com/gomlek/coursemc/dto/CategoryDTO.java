@@ -19,8 +19,6 @@ public class CategoryDTO implements Serializable{
     @Length(min=5, max=80, message= "the size soould be between 5 and 80")
     private String name;
 
-
-
     public CategoryDTO(){
     }
 
