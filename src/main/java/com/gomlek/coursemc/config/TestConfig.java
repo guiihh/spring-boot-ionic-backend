@@ -81,16 +81,47 @@ public class TestConfig implements CommandLineRunner {
 		Product p3 = new Product(null, "Macbook Pro", 1250.0);
 		Product p4 = new Product(null, "PC Gamer", 1200.0);
 		Product p5 = new Product(null, "Rails for Dummies", 100.99);
+		Product p6 = new Product(null, "Iphone", 10000.00);
+		Product p7 = new Product(null, "Samsung", 8000.00);
+		Product p8 = new Product(null, "Xaiomi", 2000.00);
+		Product p9 = new Product(null, "Tv 79' Smart", 5000.00);
+		Product p10 = new Product(null, "Chapinha ", 180.00);
+		Product p11 = new Product(null, "Mouse", 200.00);
+		Product p12 = new Product(null, "Travasseiro", 80.00);
+		Product p13 = new Product(null, "PacHabani", 200.00);
+		Product p14 = new Product(null, "Relogio de parede", 100.00);
+		Product p15 = new Product(null, "PS5", 4500.00);
+		Product p16 = new Product(null, "Xbox X", 3200.00);
 
-		p1.getCategories().add(cat2);
-		p2.getCategories().add(cat3);
-		p2.getCategories().add(cat1);
-		p3.getCategories().add(cat3);
-		p4.getCategories().add(cat3);
-		p5.getCategories().add(cat2);
+		cat1.getProducts().addAll(Arrays.asList(p2, p3,p4,p6,p7,p8,p9,p10,p11));
+		cat2.getProducts().addAll(Arrays.asList(p1,p2));
+		cat3.getProducts().addAll(Arrays.asList(p3,p4));
+		cat4.getProducts().addAll(Arrays.asList(p10,p11));
+		cat5.getProducts().addAll(Arrays.asList(p12));
+		cat6.getProducts().addAll(Arrays.asList(p13));
+		cat7.getProducts().addAll(Arrays.asList(p14));
+		cat8.getProducts().addAll(Arrays.asList(p15,p16));
+
+
+		p1.getCategories().addAll(Arrays.asList(cat2,cat4));
+		p2.getCategories().addAll(Arrays.asList(cat1,cat4));
+		p3.getCategories().addAll(Arrays.asList(cat4, cat1, cat3));
+		p4.getCategories().addAll(Arrays.asList(cat4, cat1, cat3));
+		p5.getCategories().addAll(Arrays.asList(cat2,cat4));
+		p6.getCategories().addAll(Arrays.asList(cat4, cat1, cat3));
+		p7.getCategories().addAll(Arrays.asList(cat4, cat1, cat3));
+		p8.getCategories().addAll(Arrays.asList(cat4, cat1, cat3));
+		p9.getCategories().addAll(Arrays.asList(cat1,cat4));
+		p10.getCategories().addAll(Arrays.asList(cat4, cat6, cat1));
+		p11.getCategories().addAll(Arrays.asList(cat4, cat1, cat3));
+		p12.getCategories().addAll(Arrays.asList(cat4, cat6, cat1, cat5));
+		p13.getCategories().addAll(Arrays.asList(cat6, cat4));
+		p14.getCategories().addAll(Arrays.asList(cat4, cat7));
+		p15.getCategories().addAll(Arrays.asList(cat8, cat4, cat1));
+
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8));
-		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8,p9,p10,p11,p12,p13,p14,p15));
 
 		State est1 = new State(null, "Paraná");
 		State est2 = new State(null, "Santa catarina");
